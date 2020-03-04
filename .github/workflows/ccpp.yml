@@ -8,13 +8,32 @@ jobs:
       uses: actions/checkout@v1
     - name: Install - system build dependencies
       run: |
-        sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd cpio git python-docutils
-        sudo apt install automake autopoint texinfo build-essential help2man libltdl-dev gettext
-        sudo apt install pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev
+        sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd cpio git python-docutils automake autopoint texinfo build-essential help2man libltdl-dev gettext pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev
     - name: Download - padavan source clone
       run: |
         git clone https://gitee.com/hanwckf/rt-n56u.git /opt/rt-n56u
-    - name: Build - build tool chain
+    - name: Download - build tool chain
       run: |
         cd /opt/rt-n56u/toolchain-mipsel
-        ./clean_toolchain && ./build_toolchain
+        ./clean_toolchain
+        mkdir -p toolchain-3.4.x
+        wget https://github.com/hanwckf/padavan-toolchain/releases/download/v1.1/mipsel-linux-uclibc.tar.xz
+        tar -xvf mipsel-linux-uclibc.tar.xz -C toolchain-3.4.x
+    - name: Remove - delete all config
+      run: |
+        cd /opt/rt-n56u/trunk/configs/templates/
+        rm *
+    - name: Config - download k2p config
+      run: |
+        cd /opt/rt-n56u/trunk/configs/templates/
+        wget https://raw.githubusercontent.com/thisdk/thisdk.github.io/master/K2P_nano-5.0.config
+    - name: Build - make padavan source
+      run: |
+        cd /opt/rt-n56u/trunk
+        sudo ./clear_tree
+        sudo ./build_firmware_modify K2P_nano-5.0
+    - name: Upload - push to artifact file
+      uses: actions/upload-artifact@v1
+      with:
+        name: padavan-k2p
+        path: /opt/rt-n56u/trunk/images/
