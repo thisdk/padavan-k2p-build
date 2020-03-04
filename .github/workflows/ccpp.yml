@@ -1,7 +1,7 @@
 name: Padavan CI Build
 on:
   schedule:
-    - cron:  '0 9 * * 5'
+    - cron:  '30 8 * * 3'
 jobs:
   build:
     runs-on: ubuntu-18.04
