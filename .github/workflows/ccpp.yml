@@ -1,0 +1,20 @@
+name: Padavan CI Build
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout - clone repository
+      uses: actions/checkout@v1
+    - name: Install - system build dependencies
+      run: |
+        sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd cpio git python-docutils
+        sudo apt install automake autopoint texinfo build-essential help2man libltdl-dev gettext
+        sudo apt install pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev
+    - name: Download - padavan source clone
+      run: |
+        git clone https://gitee.com/hanwckf/rt-n56u.git /opt/rt-n56u
+    - name: Build - build tool chain
+      run: |
+        cd /opt/rt-n56u/toolchain-mipsel
+        ./clean_toolchain && ./build_toolchain
