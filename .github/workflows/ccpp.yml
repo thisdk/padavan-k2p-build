@@ -11,7 +11,7 @@ jobs:
         sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd cpio git python-docutils automake autopoint texinfo build-essential help2man libltdl-dev gettext pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev
     - name: Download - padavan source clone
       run: |
-        git clone https://gitee.com/hanwckf/rt-n56u.git /opt/rt-n56u
+        git clone --depth=1 https://gitee.com/hanwckf/rt-n56u.git /opt/rt-n56u
     - name: Download - build tool chain
       run: |
         cd /opt/rt-n56u/toolchain-mipsel
