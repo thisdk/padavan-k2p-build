@@ -1,7 +1,7 @@
 name: Padavan CI Build
 on:
   schedule:
-    - cron:  '30 8 * * 3'
+    - cron:  '0 9 * * 3'
 jobs:
   build:
     runs-on: ubuntu-18.04
@@ -38,7 +38,7 @@ jobs:
       run: |
         cd /opt/rt-n56u/trunk/images/
         sudo mkdir trx
-        sduo cp *.trx trx/
+        sudo cp *.trx trx/
         sudo md5sum trx/* > trx/md5sum
     - name: Upload - push to artifact file
       uses: actions/upload-artifact@v1
